@@ -18,7 +18,7 @@
     <input
     type="text"
     class="form-control @error('title') is-invalid @enderror"
-    name="article_text"
+    name="title"
     placeholder="Add Article Title">
 
     <span class="text-danger">
@@ -32,7 +32,7 @@
 
     <label for="description">Description</label></br>
     <textarea
-    name="description"
+    name="article_text"
     cols="50"
     rows="10"
     placeholder="Description">
