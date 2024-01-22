@@ -17,9 +17,7 @@ class ArticlesController extends Controller
      $data = $request->validate([
         'title' => 'required',
         'article_text' => 'required',
-        'image' => 'required'
-        // 'category' => 'required',
-        // 'tags' => 'array'
+        'image' => 'required',
      ]);
 
      $image = $request->file('image');
@@ -41,16 +39,12 @@ class ArticlesController extends Controller
     $selectedTags = $request->input('tags', []);
     $selected = implode(",", $selectedTags);
 
-
     Tags::create([
         'articles_id' => $new_article->id,
         'tag' => $selected
         ]);
 
-
-        return back()->withErrors('error', 'Failed to add article. Please try again.');
-
-
+        return back()->with('Success', 'Article was added succesfully.');
 
     }
 
