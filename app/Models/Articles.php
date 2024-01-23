@@ -13,12 +13,12 @@ class Articles extends Model
     protected $guarded = [];
 
     //Get the category associated with the article
-    public function categories() : HasOne
+    public function categories()
     {
         return $this->hasOne(Categories::class);
     }
     //Get tag(s) associated with the article
-    public function tags() : HasMany
+    public function tags()
     {
         return $this->hasMany(Tags::class);
     }

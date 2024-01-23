@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticlesController;
+use App\Models\Articles;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,11 @@ Route::get('/add', function() {
 })->middleware(['auth', 'verified'])->name('add');
 
 Route::post('/add-article', [ArticlesController::class, 'addArticle'])->name('add-article');
+
+//Route for admin to delete an Article
+Route::get('/show', [ArticlesController::class, 'showArticles'])->middleware(['auth', 'verified'])->name('show');
+
+Route::get('/deleteArticle/{id}', [ArticlesController::class, 'deleteArticle'])->middleware(['auth', 'verified'])->name('delete');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

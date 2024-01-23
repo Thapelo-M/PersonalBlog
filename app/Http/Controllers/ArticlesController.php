@@ -45,7 +45,40 @@ class ArticlesController extends Controller
         ]);
 
         return back()->with('Success', 'Article was added succesfully.');
+    }
 
+    //Functions to display and delete an Article
+    public function showArticles() {
+
+        $articles = Articles::all();
+
+        //Create empty arrays to store categories and tags
+        $categories = [];
+        $tags = [];
+        //Loop through each article to get its category and tags
+        foreach($articles as $article) {
+            $categories[$article->id] = $article->categories;
+            $tags[$article->id] = $article->tags; //'tags' being the relatioship method in model 'Articles'
+        }
+        return view('delete', compact('articles', 'categories', 'tags'));
+    }
+
+
+    public function deleteArticle(Request $request, $articleId) {
+        $article = Articles::with('categories', 'tags')->find($articleId);
+
+        //Check if exists
+        if($article) {
+            //Delete Article
+            $article->delete();
+
+            return redirect()->route('show')->with('success', 'Article deleted successfully');
+        }
+
+        else {
+            // Article not found
+            return redirect()->route('show')->with('error', 'Article not found.');
+        }
     }
 
 }
