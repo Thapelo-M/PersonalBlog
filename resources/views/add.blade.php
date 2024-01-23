@@ -1,6 +1,7 @@
 @extends('layout')
 
 <h2 style="text-align: center;">Add new Article</h2>
+<a href="/dashboard" class="btn btn-warning">Go Back</a>
 @if(session('success'))
 <div class="alert alert-dismissible alert alerts-success">
 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
