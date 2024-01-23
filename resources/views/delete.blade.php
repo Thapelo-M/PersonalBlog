@@ -23,7 +23,7 @@
                 <td>{{$article->article_text}}</td>
                 <td>
                     <div class="col-md-3">
-                    <div class="card-body" style="max-width: 20rem;">
+                    <div class="card-body" style="max-width: 30rem;">
                         <img src="{{ asset('articles_images/' . $article->image) }}" class="card-img-top">
                     </div>
                     </div>

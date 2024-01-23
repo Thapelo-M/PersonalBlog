@@ -65,12 +65,14 @@ class ArticlesController extends Controller
 
 
     public function deleteArticle(Request $request, $articleId) {
-        $article = Articles::with('categories', 'tags')->find($articleId);
+        $article = Articles::with('categories', 'tags')->findOrFail($articleId);
 
         //Check if exists
         if($article) {
             //Delete Article
             $article->delete();
+            $article->categories()->delete();
+            $article->tags()->delete();
 
             return redirect()->route('show')->with('success', 'Article deleted successfully');
         }
