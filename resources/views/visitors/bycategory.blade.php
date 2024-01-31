@@ -35,10 +35,10 @@
         @foreach($articlesByCategory as $article)
         <div class="col-md-4">
         <div class="card mb-4" style="width: 18rem; height:400px ">
-        <a href="#">
+        <a href={{ route('article' , $article->id) }}>
             <img class="card-img-top" src="{{ asset('articles_images/' . $article->image) }}" style="width: 18rem; height:150px" alt="ArticleImg"></a>
             <div class="card-body">
-               <a style="text-decoration: none;" href="#"> <h5 class="card-title">{{ $article->title }}</h5></a>
+               <a style="text-decoration: none;" href={{ route('article' , $article->id) }}> <h5 class="card-title">{{ $article->title }}</h5></a>
                 <p class="card-text">{{ \Illuminate\Support\Str::limit($article->article_text, $limit = 80, $end = '...') }}</p>
                 <h6 class="card-subtitle">{{ $article->category }} </h6>
                 <div style="text-align: center;">
