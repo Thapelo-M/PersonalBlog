@@ -1,15 +1,15 @@
 @extends('layout')
 
-<h2 style="text-align: center;">Add new Article</h2>
-<a href="/dashboard" class="btn btn-warning">Go Back</a>
+<h2 style="text-align: center;">Update Article</h2>
+<a href="/show" class="btn btn-warning">Go Back</a>
 @if(session('success'))
 <div class="alert alert-dismissible alert alerts-success">
 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         <h4 class="alert-heading">Success</h4>
-        <p class="mb-0">New article was added successfully!</p>
+        <p class="mb-0">New article was updated successfully!</p>
 </div>
 @endif
-<form action="/add-article" method="POST" enctype="multipart/form-data">
+<form action="{{ route('update-article', $article->id) }}" method="POST" enctype="multipart/form-data">
 @csrf
 <div class="row">
 
@@ -20,7 +20,8 @@
     type="text"
     class="form-control @error('title') is-invalid @enderror"
     name="title"
-    placeholder="Add Article Title">
+    value="{{ $article->title }}"
+    placeholder="">
 
     <span class="text-danger">
         @error('title')
@@ -36,19 +37,20 @@
     name="article_text"
     cols="50"
     rows="10"
+    value="{{ $article->article_text }}"
     class="form-control"
-    placeholder="Description">
+    placeholder="">
 
 </textarea>
 <span class="text-danger">
-        @error('title')
+        @error('article_text')
             {{$message}}
         @enderror
     </span>
 </div>
 <br>
 <div class="col-md-6 mb-3">
-    <label for="file">Upload Article Image</label>
+    <label for="file">Update Article Image</label>
     <input
     type="file"
     name="image"
@@ -59,11 +61,11 @@
 <br>
     <label for=""><b>Choose Category</b></label><br>
     <select name="category" id="category" class="form-control-lg form-control-lg">
-    <option value="Technology">Technology</option>
-    <option value="Nature">Nature</option>
-    <option value="Finance">Finance</option>
-    <option value="Sports">Sports</option>
-    <option value="Relationships">Relationships</option>
+    <option value="technology">Technology</option>
+    <option value="nature">Nature</option>
+    <option value="finance">Finance</option>
+    <option value="sports">Sports</option>
+    <option value="relationships">Relationships</option>
     </select>
 
 </br>
@@ -80,18 +82,9 @@
     <option value="bafanabafana">bafanabafana</option>
     </select>
 </div>
-<!--
-    <input type="radio" name="category" id="radio3" value="Finance" class="form-check-input">Finance
-</div>
-
-<div class="form-check">
-    <input type="radio" name="category" id="radio4" value="Football" class="form-check-input">Football
-</div>
-
--->
 
 <div class="mt-4">
-    <button type="submit" class="btn btn-primary">Save Article</button>
+    <button type="submit" class="btn btn-primary">Update Article</button>
 </div>
 
 </div>
