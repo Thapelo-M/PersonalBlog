@@ -7,42 +7,33 @@ use App\Models\Articles;
 use App\Models\Categories;
 use App\Models\Tags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 
 class ArticlesController extends Controller
 {
     //
     public function addArticle(Request $request) {
+        //Tags array retrieval
+        $selectedTags = $request->input('tags', []);
+        $selected = implode(",", $selectedTags);
 
-    //Form Handling logic to add article goes here
-     $data = $request->validate([
-        'title' => 'required',
-        'article_text' => 'required',
-        'image' => 'required',
-     ]);
-
-     $image = $request->file('image');
-     $imageName = $data['title'].'-image-'.time().rand(1, 1000).'.'.$image->extension();
-     $image->move(public_path('articles_images'), $imageName);
-
-    //Create a new article
-    $data['image'] = $imageName;
-
-    $new_article = Articles::create($data);
-
-    //Create records in categories and tags
-    Categories::create([
-        'articles_id' => $new_article->id,
-        'category' => $request->input('category')
-    ]);
-
-    //Tags array retrieval
-    $selectedTags = $request->input('tags', []);
-    $selected = implode(",", $selectedTags);
-
-    Tags::create([
-        'articles_id' => $new_article->id,
-        'tag' => $selected
+        //Form Handling logic to add article goes here
+        $data = $request->validate([
+            'title' => 'required',
+            'article_text' => 'required',
+            'image' => 'required'
         ]);
+
+        $image = $request->file('image');
+        $imageName = $data['title'].'-image-'.time().rand(1, 1000).'.'.$image->extension();
+        $image->move(public_path('articles_images'), $imageName);
+
+        $data['image'] = $imageName;
+        $data['tag'] = $selected;
+        $data['category'] = $request->input('category');
+
+        //Create an article
+        $new_article = Articles::create($data);
 
         return back()->with('Success', 'Article was added succesfully.');
     }
@@ -52,27 +43,18 @@ class ArticlesController extends Controller
 
         $articles = Articles::all();
 
-        //Create empty arrays to store categories and tags
-        $categories = [];
-        $tags = [];
-        //Loop through each article to get its category and tags
-        foreach($articles as $article) {
-            $categories[$article->id] = $article->categories;
-            $tags[$article->id] = $article->tags; //'tags' being the relatioship method in model 'Articles'
-        }
-        return view('delete', compact('articles', 'categories', 'tags'));
+        return view('delete', compact('articles'));
     }
 
 
     public function deleteArticle(Request $request, $articleId) {
-        $article = Articles::with('categories', 'tags')->findOrFail($articleId);
+        $article = Articles::findOrFail($articleId);
+
 
         //Check if exists
         if($article) {
             //Delete Article
             $article->delete();
-            $article->categories()->delete();
-            $article->tags()->delete();
 
             return redirect()->route('show')->with('success', 'Article deleted successfully');
         }
@@ -81,6 +63,68 @@ class ArticlesController extends Controller
             // Article not found
             return redirect()->route('show')->with('error', 'Article not found.');
         }
+    }
+
+    public function getArticle($articleId) {
+        //Some code to update an article
+        $article = Articles::findOrFail($articleId);
+
+        return view('update', compact('article'));
+    }
+
+    public function updateArticle(Request $request, $articleId) {
+
+        $selectedTags = $request->input('tags', []);
+        $selected = implode(",", $selectedTags);
+
+        //Validate and Update article with information from 'request'
+        $data = $request->validate([
+            'title' => 'required',
+            'article_text' => 'required',
+            'image' => 'required',
+        ]);
+
+        $image = $request->file('image');
+        $imageName = $data['title'].'-image-'.time().rand(1, 1000).'.'.$image->extension();
+        $image->move(public_path('articles_images'), $imageName);
+
+        //Update article
+        $data['image'] = $imageName;
+        $article = Articles::findOrFail($articleId);
+
+        $article->update([
+            'title' => $data['title'],
+            'article_text' => $data['article_text'],
+            'image' => $data['image'],
+            'category' => $request->input('category'),
+            'tag' => $selected
+        ]);
+
+        return redirect()->route('show')->with('success', 'Article updated successfully');
+
+    }
+
+    public function visitorArticles() {
+        $articles = Articles::all();
+
+        return view('visitors.welcome', compact('articles'));
+    }
+
+    public function filterByCategory(Request $request) {
+        $category = $request->input('category');
+
+        $fieldName = 'category';
+
+        $articlesByCategory = Articles::where($fieldName, $category)->get();
+
+        return view('visitors.bycategory', compact('articlesByCategory'));
+    }
+
+    //View Article
+    public function viewArticle($articleId) {
+        $article = Articles::findOrFail($articleId);
+
+        return view('visitors.article', compact('article'));
     }
 
 }

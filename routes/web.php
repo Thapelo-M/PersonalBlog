@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticlesController;
 use App\Models\Articles;
+use Illuminate\Routing\RouteRegistrar;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,9 +17,7 @@ use App\Models\Articles;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [ArticlesController::class, 'visitorArticles']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -36,11 +35,20 @@ Route::get('/show', [ArticlesController::class, 'showArticles'])->middleware(['a
 
 Route::get('/deleteArticle/{id}', [ArticlesController::class, 'deleteArticle'])->middleware(['auth', 'verified'])->name('delete');
 
+//Route for admin to update an Article
+Route::get('/update/{id}', [ArticlesController::class, 'getArticle'])->middleware(['auth', 'verified'])->name('update');
+
+Route::post('/update-article/{id}', [ArticlesController::class, 'updateArticle'])->middleware(['auth', 'verified'])->name('update-article');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/categories', [ArticlesController::class, 'filterByCategory']);
+
+Route::get('/article/{id}', [ArticlesController::class, 'viewArticle'])->name('article');
 
 
 require __DIR__.'/auth.php';

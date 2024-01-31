@@ -7,7 +7,7 @@
     </x-slot>
     <br>
     <a href={{ route('add') }} class="btn btn-outline-dark">Add Article</a>
-    <a href={{ route('show') }} class="btn btn-primary">Delete Article</a>
+    <a href={{ route('show') }} class="btn btn-primary">Manage Articles</a>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">

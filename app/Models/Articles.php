@@ -13,13 +13,16 @@ class Articles extends Model
     protected $guarded = [];
 
     //Get the category associated with the article
-    public function categories()
-    {
-        return $this->hasOne(Categories::class);
-    }
-    //Get tag(s) associated with the article
-    public function tags()
-    {
-        return $this->hasMany(Tags::class);
-    }
+    // public function categories()
+    // {
+    //     return $this->hasOne(Categories::class);
+    //     // return $this->belongsTo(Categories::class, 'articles_id');
+    // }
+    // //Get tag(s) associated with the article
+    // public function tags()
+    // {
+    //     return $this->hasMany(Tags::class);
+    //     // return $this->belongsTo(Tags::class, 'articles_id');
+    // }
+
 }

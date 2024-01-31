@@ -33,6 +33,9 @@
                 <td>
                     <a href={{ route('delete' , $article->id) }} class="btn btn-outline-dark">Delete</a>
                 </td>
+                <td>
+                    <a href={{ route('update', $article->id) }} class="btn btn-outline-dark">Update</a>
+                </td>
             </tr>
             @empty
             <tr>

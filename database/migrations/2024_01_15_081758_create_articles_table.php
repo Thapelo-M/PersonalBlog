@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Categories;
+use App\Models\Tags;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -19,6 +21,8 @@ return new class extends Migration
             $table->text('title');
             $table->longText('article_text');
             $table->string('image');
+            $table->string('tag');
+            $table->string('category');
         });
     }
 
