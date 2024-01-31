@@ -28,8 +28,8 @@
                     </div>
                     </div>
                 </td>
-                <td>{{$categories[$article->id]->category}}</td>
-                <td>{{ implode(', ', $tags[$article->id]->pluck('tag')->toArray()) }}</td>
+                <td>{{ $article->category }}</td>
+                <td>{{ $article->tags }}</td>
                 <td>
                     <a href={{ route('delete' , $article->id) }} class="btn btn-outline-dark">Delete</a>
                 </td>
