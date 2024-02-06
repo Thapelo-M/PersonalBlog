@@ -6,11 +6,13 @@
 <html>
     <body>
         <!--Filter Articles by Category -->
-        <form action="/categories" method="GET">
+        <form id="myForm" action="/categories" method="GET">
             <div class="row">
                 <div class="col-md-3">
                     <label for=""><b>Filter By Category</b></label><br>
                     <select name="category" id="category" class="form-control-lg form-control-lg">
+                    <option></option>
+                    <option value="All">All</option>
                     <option value="Technology">Technology</option>
                     <option value="Nature">Nature</option>
                     <option value="Finance">Finance</option>
@@ -19,16 +21,35 @@
                     </select>
                 </div>
                 <br>
-                <div class="col-md-0">
+                <!-- <div class="col-md-0">
                 <button type="submit" class="btn btn-primary">Filter</button>
-                </div>
+                </div> -->
             </div>
-            <div class="row">
+            <!-- <div class="row">
             <div class="col-md-3">
                 <a href="/" class="btn btn-danger">Reset</a>
             </div>
-            </div>
+            </div> -->
         </form>
+
+        <script>
+            $(document).ready(function () {
+                //Listen for change event on the select element
+                $('#category').on('change', function() {
+                    var optionSelected = $('option:selected', this);
+                    //Submit the form when selection changes ans track current value
+                    $('#myForm').submit();
+                    $('#myForm'.on('submit'), function() {
+                        $('#category');
+                    })
+                    // var currentValue = $('#category').prop('selected', true);
+                    // $('#category').val(currentValue);
+                });
+
+            });
+
+        </script>
+
         <!--Render articles from the database using bootstrap through a foreach loop-->
         <div class="container mt-4">
         <div class="row">

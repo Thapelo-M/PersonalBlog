@@ -13,7 +13,7 @@
    <div class="row">
         <div class="col-md-12">
         <div class="card mb-4" style="width: 100%; height:fit-content ">
-        <img class="card-img-top" src="{{ asset('articles_images/' . $article->image) }}" style="width: 60%; height:250px; " alt="ArticleImg"></a>
+        <img class="card-img-top" src="{{ asset('articles_images/' . $article->image) }}" style="width: 40%; height:250px; " alt="ArticleImg"></a>
             <div class="card-body">
             <h5 class="card-title">{{ $article->title }}</h5>
                 <p class="card-text">{{ $article->article_text }}</p>
