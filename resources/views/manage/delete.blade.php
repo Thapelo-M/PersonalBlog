@@ -12,6 +12,7 @@
                     <th>Image</th>
                     <th>Category</th>
                     <th>Tags</th>
+                    <th>By</th>
                 </tr>
             </thead>
             <tbody>
@@ -20,7 +21,7 @@
             <tr>
                 <td>{{$i++;}}</td>
                 <td>{{$article->title}}</td>
-                <td>{{$article->article_text}}</td>
+                <td>{{ \Illuminate\Support\Str::limit($article->article_text, $limit = 80, $end = '...') }}</td>
                 <td>
                     <div class="col-md-3">
                     <div class="card-body" style="max-width: 30rem;">
@@ -29,7 +30,8 @@
                     </div>
                 </td>
                 <td>{{ $article->category }}</td>
-                <td>{{ $article->tags }}</td>
+                <td>{{ $article->tag }}</td>
+                <td>{{ $article->user }}</td>
                 <td>
                     <a href={{ route('delete' , $article->id) }} class="btn btn-outline-dark">Delete</a>
                 </td>

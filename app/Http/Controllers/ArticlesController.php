@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models;
 use App\Models\Articles;
-use App\Models\Categories;
-use App\Models\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
 
 class ArticlesController extends Controller
 {
-    //
+    //Function to add an Article accessed by authenticated user
     public function addArticle(Request $request) {
+        //User details
+        $user = Auth::user();
+
         //Tags array retrieval
         $selectedTags = $request->input('tags', []);
         $selected = implode(",", $selectedTags);
@@ -31,6 +33,8 @@ class ArticlesController extends Controller
         $data['image'] = $imageName;
         $data['tag'] = $selected;
         $data['category'] = $request->input('category');
+        $data['user'] = $user->name;
+        $data['user_id'] = $user->id;
 
         //Create an article
         $new_article = Articles::create($data);
@@ -40,16 +44,15 @@ class ArticlesController extends Controller
 
     //Functions to display and delete an Article
     public function showArticles() {
+        //Get user session to show and allow delete ONLY on articles created by that user
+        $userId = Auth::user()->id;
+        $articles = Articles::where('user_id', $userId)->get();
 
-        $articles = Articles::all();
-
-        return view('delete', compact('articles'));
+        return view('manage.delete', compact('articles'));
     }
-
 
     public function deleteArticle(Request $request, $articleId) {
         $article = Articles::findOrFail($articleId);
-
 
         //Check if exists
         if($article) {
@@ -66,10 +69,10 @@ class ArticlesController extends Controller
     }
 
     public function getArticle($articleId) {
-        //Some code to update an article
+        // update an article
         $article = Articles::findOrFail($articleId);
 
-        return view('update', compact('article'));
+        return view('manage.update', compact('article'));
     }
 
     public function updateArticle(Request $request, $articleId) {
@@ -117,7 +120,14 @@ class ArticlesController extends Controller
 
         $articlesByCategory = Articles::where($fieldName, $category)->get();
 
-        return view('visitors.bycategory', compact('articlesByCategory'));
+        if($category == 'All') {
+            $articles = Articles::all();
+            return view('visitors.welcome', compact('articles'));
+        }
+        else {
+            return view('visitors.bycategory', compact('articlesByCategory'));
+        }
+
     }
 
     //View Article

@@ -17,15 +17,16 @@ use Illuminate\Routing\RouteRegistrar;
 |
 */
 
+//Homepage for the the application
 Route::get('/', [ArticlesController::class, 'visitorArticles']);
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('manage.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 //Route for admin to add an article
 Route::get('/add', function() {
-    return view('add');
+    return view('manage.add');
 })->middleware(['auth', 'verified'])->name('add');
 
 Route::post('/add-article', [ArticlesController::class, 'addArticle'])->name('add-article');

@@ -6,11 +6,12 @@
 <html>
     <body>
         <!--Filter Articles by Category -->
-        <form action="/categories" method="GET">
+        <form id="myForm" action="/categories" method="GET">
             <div class="row">
                 <div class="col-md-4">
                     <label for=""><b>Filter By Category</b></label><br>
                     <select name="category" id="category" class="form-control-lg form-control-lg">
+                    <option value="All">All</option>
                     <option value="Technology">Technology</option>
                     <option value="Nature">Nature</option>
                     <option value="Finance">Finance</option>
@@ -18,11 +19,32 @@
                     <option value="Relationships">Relationships</option>
                     </select>
                 </div>
-                <div class="col-md-4">
+                <!-- <div class="col-md-4">
                 <button type="submit" class="btn btn-primary">Filter</button>
-                </div>
+                </div> -->
             </div>
         </form>
+
+        <script>
+            $(document).ready(function () {
+                //Listen for change event on the select element
+                $('#category').on('change', function() {
+                    //Submit the form when selection changes
+                    var optionSelected = $('option:selected', this);
+                    var selectedValue = optionSelected.val();
+
+                    $('#myForm').submit();
+                    $('#myForm'.on('submit'), function() {
+                        $('#category').val(selectedValue);
+                    });
+
+                });
+                // var currentValue = $('#category').prop('selected', true);
+                // $('#category').val(currentValue);
+            });
+
+        </script>
+
         <!--Render articles from the database using bootstrap through a foreach loop-->
         <div class="container mt-4">
         <div class="row">
